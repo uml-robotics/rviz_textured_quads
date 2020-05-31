@@ -84,4 +84,4 @@ jobs:
       - name: lint
         run: |
           cd ~/catkin_ws
-          catkin build rviz_interactive_tf --no-deps --catkin-make-args roslint
+          catkin build rviz_textured_quads --no-deps --catkin-make-args roslint
