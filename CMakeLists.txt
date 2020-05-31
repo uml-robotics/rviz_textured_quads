@@ -21,6 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   shape_msgs
   std_msgs
+  tf_conversions
 )
 
 find_package(Eigen REQUIRED)
