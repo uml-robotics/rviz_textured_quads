@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 2.8.3)
-project(rviz_textured_quads)
+cmake_minimum_required(VERSION 3.0)
+project(rviz_textured_quads VERSION 0.1.0)
 
 ## Find catkin and any catkin packages on which
 ## this package depends at build time

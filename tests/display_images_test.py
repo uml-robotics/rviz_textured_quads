@@ -37,6 +37,7 @@ def pub_image():
         image_pub.publish(img_msg1)
         rate.sleep()
 
+
 if __name__ == '__main__':
     try:
         pub_image()
