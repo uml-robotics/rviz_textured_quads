@@ -60,6 +60,7 @@
 #include <sensor_msgs/image_encodings.h>
 #include <string>
 #include <vector>
+#include "rviz_textured_quads/TexturedQuad.h"
 
 namespace rviz
 {
@@ -83,6 +84,7 @@ MeshDisplayCustom::MeshDisplayCustom()
   , decal_frustums_(NULL)
   , new_image_(false)
 {
+  rviz_textured_quads::TexturedQuad t;
   image_topic_property_ = new RosTopicProperty("Image Topic", "",
       QString::fromStdString(ros::message_traits::datatype<sensor_msgs::Image>()),
       "Image topic to subscribe to.",
