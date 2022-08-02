@@ -82,15 +82,15 @@ class RosTopicProperty;
 class TfFrameProperty;
 
 /**
- * \class MeshDisplayCustom
+ * \class StaticTexturedQuad
  * \brief Uses a pose from topic + offset to render a bounding object with shape, size and color
  */
-class MeshDisplayCustom: public rviz::Display,  public Ogre::RenderTargetListener, public Ogre::RenderQueueListener
+class StaticTexturedQuad: public rviz::Display,  public Ogre::RenderTargetListener, public Ogre::RenderQueueListener
 {
   Q_OBJECT
 public:
-  MeshDisplayCustom();
-  virtual ~MeshDisplayCustom();
+    StaticTexturedQuad();
+  virtual ~StaticTexturedQuad();
 
   // Overrides from Display
   virtual void onInitialize();

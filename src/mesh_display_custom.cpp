@@ -1,5 +1,5 @@
 /* Copyright (c) 2013-2015 Team ViGIR ( TORC Robotics LLC, TU Darmstadt, Virginia Tech, Oregon State University, Cornell University, and Leibniz University Hanover )
- * MeshDisplayCustom class implementation.
+ * StaticTexturedQuad class implementation.
  *
  * Author: Felipe Bacim.
  *
@@ -75,7 +75,7 @@ bool validateFloats(const sensor_msgs::CameraInfo& msg)
   return valid;
 }
 
-MeshDisplayCustom::MeshDisplayCustom()
+StaticTexturedQuad::StaticTexturedQuad()
   : Display()
   , mesh_nodes_(NULL)
   , textures_(NULL)
@@ -98,7 +98,7 @@ MeshDisplayCustom::MeshDisplayCustom()
       "Rviz meters per image pixel.", this);
 }
 
-MeshDisplayCustom::~MeshDisplayCustom()
+    StaticTexturedQuad::~StaticTexturedQuad()
 {
   unsubscribe();
   // TODO(lucasw) switch to smart pointers
@@ -116,13 +116,13 @@ MeshDisplayCustom::~MeshDisplayCustom()
   delete meters_per_pixel_property_;
 }
 
-void MeshDisplayCustom::onInitialize()
+void StaticTexturedQuad::onInitialize()
 {
   tf_frame_property_->setFrameManager(context_->getFrameManager());
   Display::onInitialize();
 }
 
-void MeshDisplayCustom::createProjector(int index)
+void StaticTexturedQuad::createProjector(int index)
 {
   decal_frustums_ = new Ogre::Frustum();
 
@@ -141,7 +141,7 @@ void MeshDisplayCustom::createProjector(int index)
   filter_node->setOrientation(Ogre::Quaternion(Ogre::Degree(90), Ogre::Vector3::UNIT_Y));
 }
 
-void MeshDisplayCustom::addDecalToMaterial(int index, const Ogre::String& matName)
+void StaticTexturedQuad::addDecalToMaterial(int index, const Ogre::String& matName)
 {
   Ogre::MaterialPtr mat = (Ogre::MaterialPtr)Ogre::MaterialManager::getSingleton().getByName(matName);
   mat->setCullingMode(Ogre::CULL_NONE);
@@ -181,7 +181,7 @@ void MeshDisplayCustom::addDecalToMaterial(int index, const Ogre::String& matNam
   }
 }
 
-shape_msgs::Mesh MeshDisplayCustom::constructMesh(geometry_msgs::Pose mesh_origin,
+shape_msgs::Mesh StaticTexturedQuad::constructMesh(geometry_msgs::Pose mesh_origin,
     float width, float height, float border_size)
 {
   shape_msgs::Mesh mesh;
@@ -229,7 +229,7 @@ shape_msgs::Mesh MeshDisplayCustom::constructMesh(geometry_msgs::Pose mesh_origi
   return mesh;
 }
 
-void MeshDisplayCustom::clearStates()
+void StaticTexturedQuad::clearStates()
 {
   if (manual_objects_)
     manual_objects_->clear();
@@ -249,7 +249,7 @@ void MeshDisplayCustom::clearStates()
   }
 }
 
-void MeshDisplayCustom::constructQuads(const sensor_msgs::Image::ConstPtr& image)
+void StaticTexturedQuad::constructQuads(const sensor_msgs::Image::ConstPtr& image)
 {
   clearStates();
 
@@ -380,13 +380,13 @@ void MeshDisplayCustom::constructQuads(const sensor_msgs::Image::ConstPtr& image
   }
 }
 
-void MeshDisplayCustom::updateImage(const sensor_msgs::Image::ConstPtr& image)
+void StaticTexturedQuad::updateImage(const sensor_msgs::Image::ConstPtr& image)
 {
   cur_image_ = image;
   new_image_ = true;
 }
 
-void MeshDisplayCustom::updateMeshProperties()
+void StaticTexturedQuad::updateMeshProperties()
 {
   {
     // update color/alpha
@@ -416,13 +416,13 @@ void MeshDisplayCustom::updateMeshProperties()
   }
 }
 
-void MeshDisplayCustom::updateDisplayImages()
+void StaticTexturedQuad::updateDisplayImages()
 {
   unsubscribe();
   subscribe();
 }
 
-void MeshDisplayCustom::subscribe()
+void StaticTexturedQuad::subscribe()
 {
   if (!isEnabled())
   {
@@ -434,7 +434,7 @@ void MeshDisplayCustom::subscribe()
     try
     {
       image_sub_ = nh_.subscribe(image_topic_property_->getTopicStd(),
-          1, &MeshDisplayCustom::updateImage, this);
+          1, &StaticTexturedQuad::updateImage, this);
       setStatus(StatusProperty::Ok, "Display Images Topic", "ok");
     }
     catch (ros::Exception& e)
@@ -444,12 +444,12 @@ void MeshDisplayCustom::subscribe()
   }
 }
 
-void MeshDisplayCustom::unsubscribe()
+void StaticTexturedQuad::unsubscribe()
 {
   image_sub_.shutdown();
 }
 
-void MeshDisplayCustom::load()
+void StaticTexturedQuad::load()
 {
   if (mesh_nodes_ != NULL)
     return;
@@ -496,21 +496,21 @@ void MeshDisplayCustom::load()
   mesh_nodes_ = this->scene_node_->createChildSceneNode();
 }
 
-void MeshDisplayCustom::onEnable()
+void StaticTexturedQuad::onEnable()
 {
   subscribe();
 }
 
-void MeshDisplayCustom::onDisable()
+void StaticTexturedQuad::onDisable()
 {
   unsubscribe();
 }
 
-void MeshDisplayCustom::preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
+void StaticTexturedQuad::preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
 {
 }
 
-void MeshDisplayCustom::update(float wall_dt, float ros_dt)
+void StaticTexturedQuad::update(float wall_dt, float ros_dt)
 {
   if (cur_image_)
   {
@@ -556,7 +556,7 @@ void MeshDisplayCustom::update(float wall_dt, float ros_dt)
   setStatus(StatusProperty::Ok, "Display Image", "ok");
 }
 
-void MeshDisplayCustom::updateCamera(bool update_image)
+void StaticTexturedQuad::updateCamera(bool update_image)
 {
   int index = 0;
   if (update_image)
@@ -709,7 +709,7 @@ void MeshDisplayCustom::updateCamera(bool update_image)
   }
 }
 
-void MeshDisplayCustom::clear()
+void StaticTexturedQuad::clear()
 {
   textures_->clear();
 
@@ -718,13 +718,13 @@ void MeshDisplayCustom::clear()
   setStatus(StatusProperty::Warn, "Image", "No Image received");
 }
 
-void MeshDisplayCustom::reset()
+void StaticTexturedQuad::reset()
 {
   Display::reset();
   clear();
 }
 
-void MeshDisplayCustom::processImage(int index, const sensor_msgs::Image& msg)
+void StaticTexturedQuad::processImage(int index, const sensor_msgs::Image& msg)
 {
   // std::cout<<"camera image received"<<std::endl;
   cv_bridge::CvImagePtr cv_ptr;
@@ -757,4 +757,4 @@ void MeshDisplayCustom::processImage(int index, const sensor_msgs::Image& msg)
 }  // namespace rviz
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(rviz::MeshDisplayCustom, rviz::Display)
+PLUGINLIB_EXPORT_CLASS(rviz::StaticTexturedQuad, rviz::Display)
